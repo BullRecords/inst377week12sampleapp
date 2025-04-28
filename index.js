@@ -6,13 +6,18 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express(); //Fast and simple framework for Node.js aka backend
-const port = 3000;
+const port = 3000; //sets the app to port 3000
 
 app.use(bodyParser.json()); //Use the body parser library so you can understand POST requests
 app.use(express.static(__dirname + "/public"));
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = process.env.SUPABASE_URL; //This is how it gets the key from the .env
 const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey);
+const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey); //create a connection to the database
+
+app.get("/", (req, res) => {
+  //This sends you the html file when you GET (Literally just looking up the site)
+  res.sendFile("public/Customers.html", { root: __dirname });
+});
 
 app.get("/customers", async (req, res) => {
   //This creates a GET API endpoint for getting every customer
